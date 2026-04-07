@@ -1,0 +1,13 @@
+package com.julien.score_server;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ScoreServerApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}

@@ -1,0 +1,13 @@
+Score JSON Format : score - date - playerName - gameVersion
+
+Curl :
+
+curl -X POST http://localhost:8080/scores \
+  -H "Content-Type: application/json" \
+  -d '{
+    "score": 12000,
+    "date": "2026-03-23",
+    "playerName": "Julien",
+    "gameVersion": "1.02"
+  }'
+
