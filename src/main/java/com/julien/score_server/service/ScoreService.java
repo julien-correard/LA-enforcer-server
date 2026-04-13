@@ -13,19 +13,33 @@ public class ScoreService {
 
     private final ScoreRepository scoreRepository;
 
+    //  cache
+    private List<ScoreDto> cache;
+    private long lastUpdate = 0;
+
     public ScoreService(ScoreRepository scoreRepository) {
         this.scoreRepository = scoreRepository;
     }
 
     public List<ScoreDto> getAllScores() {
-        return scoreRepository.findAllByOrderByScoreDesc().stream()
-                .map(entity -> new ScoreDto(
-                        entity.getScore(),
-                        entity.getDate(),
-                        entity.getPlayerName(),
-                        entity.getGameVersion()
-                ))
-                .collect(Collectors.toList());
+        long now = System.currentTimeMillis();
+
+        //  refresh toutes les 30 secondes
+        if (cache == null || (now - lastUpdate > 30000)) {
+
+            cache = scoreRepository.findAllByOrderByScoreDesc().stream()
+                    .map(entity -> new ScoreDto(
+                            entity.getScore(),
+                            entity.getDate(),
+                            entity.getPlayerName(),
+                            entity.getGameVersion()
+                    ))
+                    .collect(Collectors.toList());
+
+            lastUpdate = now;
+        }
+
+        return cache;
     }
 
     public void saveScore(ScoreDto scoreDto) {
@@ -37,5 +51,8 @@ public class ScoreService {
         );
 
         scoreRepository.save(entity);
+
+        //  IMPORTANT : invalider le cache
+        cache = null;
     }
 }
