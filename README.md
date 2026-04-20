@@ -2,14 +2,15 @@
 
 ## Présentation
 
-Ce serveur fournit une API REST permettant de stocker, gérer et exposer les scores du jeu rétro DOS *LA Enforcer*.
+Ce serveur développé avec Spring Boot fournit une API REST permettant de stocker, gérer et exposer les scores du jeu rétro DOS *LA Enforcer*.
 
 ## Fonctionnalités
 
 - Réception des scores via requêtes HTTP POST
-- Stockage en base de données (H2)
 - Récupération des scores via endpoint GET
-- Tri des scores (leaderboard)
+- Stockage des scores dans une base PostgreSQL hébergée sur Supabase
+- Accès aux données via Spring Data JPA
+- Endpoint `/health` pour vérifier l’état du serveur (utile pour les environnements avec mise en veille)
 
 ## API
 
@@ -32,23 +33,17 @@ Exemple de payload :
 
 Retourne la liste des scores triés (score décroissant).
 
-## Détails techniques
+### GET /health
 
-Le serveur est développé avec Spring Boot et utilise Spring Data JPA pour la persistance.
+Retourne un statut HTTP 200 avec le corps "OK" si le serveur est opérationnel.
 
-Il s’intègre dans un système complet :
+## Ecosystème du projet
 
-jeu en C → génère les scores
-client Go → envoie les scores
-serveur → stocke et expose les données
-frontend web → affiche le classement
-
-## Technologies utilisées
-
-Java
-Spring Boot
-Spring Data JPA
-H2 Database
+Ce projet complète un système global comprenant :
+- un [jeu en C](https://github.com/julien-correard/LA-enforcer-game) (génération des scores)
+- un [client en Go](https://github.com/julien-correard/LA-enforcer-client) (envoi des scores)
+- un [serveur Spring Boot](https://github.com/julien-correard/LA-enforcer-server) (stockage des scores)
+- une [interface web en JavaScript](https://github.com/julien-correard/LA-enforcer-web) (consultation des scores)
 
 ## Auteur
 
